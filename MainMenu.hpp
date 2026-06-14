@@ -5,10 +5,11 @@
 #include "GameState.hpp"
 #include "SaveSystem.hpp"
 
-class MainMenu {
+class MainMenu
+{
 public:
-    MainMenu(sf::RenderWindow& window, sf::Font& font);
-    MenuAction handleEvent(const sf::Event& event);
+    MainMenu(sf::RenderWindow &window, sf::Font &font);
+    MenuAction handleEvent(const sf::Event &event);
     void update(float dt);
     void draw();
 
@@ -17,17 +18,17 @@ private:
     void drawMenuItems();
     void drawBackground();
 
-    sf::RenderWindow& window;
-    sf::Font& font;
+    sf::RenderWindow &window;
+    sf::Font &font;
 
     std::vector<std::string> items = {
-        "New Game", "Continue", "Settings", "Quit"
-    };
+        "开始游戏", "继续游戏", "游戏设置", "退出游戏"};
     int selectedIndex = 0;
     float animTimer = 0.f;
 
     // 背景粒子
-    struct Particle {
+    struct Particle
+    {
         sf::Vector2f pos;
         sf::Vector2f vel;
         float alpha = 255.f;

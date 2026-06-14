@@ -132,24 +132,28 @@ void Game::spawnItems()
     }
 }
 
-
-
-bool Game::handleEvent(const sf::Event& event) {
-    if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::Escape) {
+bool Game::handleEvent(const sf::Event &event)
+{
+    if (event.type == sf::Event::KeyPressed)
+    {
+        if (event.key.code == sf::Keyboard::Escape)
+        {
             wantsToQuit = true;
             return true;
         }
-        if (event.key.code == sf::Keyboard::R) {
+        if (event.key.code == sf::Keyboard::R)
+        {
             newGame();
         }
-        if (event.key.code == sf::Keyboard::Tab) {
+        if (event.key.code == sf::Keyboard::Tab)
+        {
             // 临时保存到槽0
             saveToSlot(SaveSystem::slotFilename(0));
-            if (fontLoaded) {
+            if (fontLoaded)
+            {
                 DamageText d;
                 d.text.setFont(font);
-                d.text.setString("Saved!");
+                d.text.setString("已保存!");
                 d.text.setCharacterSize(20);
                 d.text.setFillColor(sf::Color(50, 220, 100));
                 d.pos = player.getPosition();
@@ -218,7 +222,7 @@ void Game::handleItems()
                 {
                     DamageText d;
                     d.text.setFont(font);
-                    d.text.setString("ATK +10!");
+                    d.text.setString("攻击力 +10!");
                     d.text.setCharacterSize(16);
                     d.text.setFillColor(sf::Color(255, 180, 0));
                     d.pos = pPos;
@@ -231,7 +235,7 @@ void Game::handleItems()
                 {
                     DamageText d;
                     d.text.setFont(font);
-                    d.text.setString("SPD UP!");
+                    d.text.setString("速度提升!");
                     d.text.setCharacterSize(16);
                     d.text.setFillColor(sf::Color(50, 220, 180));
                     d.pos = pPos;
@@ -477,7 +481,7 @@ void Game::handleSkills()
             {
                 DamageText d;
                 d.text.setFont(font);
-                d.text.setString("Multi Shot!");
+                d.text.setString("三连发三连发!");
                 d.text.setCharacterSize(14);
                 d.text.setFillColor(sf::Color(100, 220, 255));
                 d.pos = playerPos;
@@ -495,7 +499,7 @@ void Game::handleSkills()
             {
                 DamageText d;
                 d.text.setFont(font);
-                d.text.setString("Shield!");
+                d.text.setString("护盾!");
                 d.text.setCharacterSize(14);
                 d.text.setFillColor(sf::Color(100, 200, 255));
                 d.pos = playerPos;
@@ -605,9 +609,9 @@ void Game::drawHUD()
 
     std::ostringstream ss;
     ss << "HP: " << player.getHP() << "/" << player.getMaxHP()
-       << "   Lv: " << player.getLevel()
-       << "   ATK: " << (playerAttackPower + player.getLevel() * 3)
-       << "   Enemies: " << enemies.size();
+       << "   等级: " << player.getLevel()
+       << "   攻击: " << (playerAttackPower + player.getLevel() * 3)
+       << "   敌人: " << enemies.size();
     text.setString(ss.str());
     text.setPosition(10, 30);
     window.draw(text);
@@ -616,7 +620,7 @@ void Game::drawHUD()
     ctrl.setFont(font);
     ctrl.setCharacterSize(12);
     ctrl.setFillColor(sf::Color(160, 160, 160));
-    ctrl.setString("[WASD] Move  [LMB/Space] Shoot  [R] New Map  [ESC] Quit");
+    ctrl.setString("[WASD]移动  [鼠标左键/空格]射击  [R]重新开始  [ESC]退出");
     ctrl.setPosition(10, 50);
     window.draw(ctrl);
     // 层数显示
@@ -624,13 +628,13 @@ void Game::drawHUD()
     floorText.setFont(font);
     floorText.setCharacterSize(14);
     floorText.setFillColor(sf::Color(255, 200, 50));
-    floorText.setString("Floor: " + std::to_string(currentFloor));
+    floorText.setString("第 " + std::to_string(currentFloor) + " 层");
     floorText.setPosition(250, 10);
     window.draw(floorText);
 
     // 技能冷却显示
     auto &skills = player.getSkills();
-    std::string skillNames[] = {"Q:Dash", "E:Multi", "F:Shield"};
+    std::string skillNames[] = {"Q:冲刺", "E:三连发", "F:护盾"};
     sf::Color skillColors[] = {
         sf::Color(100, 200, 255),
         sf::Color(255, 180, 50),
@@ -677,8 +681,7 @@ void Game::drawHUD()
     {
         sf::Text clear;
         clear.setFont(font);
-        clear.setString("FLOOR CLEARED!\nNext floor in " +
-                        std::to_string((int)floorClearTimer + 1) + "s...");
+        clear.setString("本层通关！\n" + std::to_string((int)floorClearTimer + 1) + " 秒后进入下一层...");
         clear.setCharacterSize(36);
         clear.setFillColor(sf::Color(50, 220, 100));
         clear.setPosition(180, 230);
@@ -700,7 +703,7 @@ void Game::drawHUD()
     {
         sf::Text win;
         win.setFont(font);
-        win.setString("YOU WIN!\nPress R for new dungeon");
+        win.setString("胜利！\n按R开始新地下城");
         win.setCharacterSize(40);
         win.setFillColor(sf::Color(50, 220, 100));
         win.setPosition(180, 230);
@@ -711,7 +714,7 @@ void Game::drawHUD()
     {
         sf::Text dead;
         dead.setFont(font);
-        dead.setString("YOU DIED\nPress R to restart");
+        dead.setString("你死了\n按R重新开始");
         dead.setCharacterSize(48);
         dead.setFillColor(sf::Color(220, 30, 30));
         dead.setPosition(200, 230);

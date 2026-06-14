@@ -1,11 +1,14 @@
 #include "Settings.hpp"
 
-Settings::Settings(sf::RenderWindow& window, sf::Font& font)
+Settings::Settings(sf::RenderWindow &window, sf::Font &font)
     : window(window), font(font) {}
 
-bool Settings::handleEvent(const sf::Event& event) {
-    if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::Escape) return true;
+bool Settings::handleEvent(const sf::Event &event)
+{
+    if (event.type == sf::Event::KeyPressed)
+    {
+        if (event.key.code == sf::Keyboard::Escape)
+            return true;
         if (event.key.code == sf::Keyboard::W ||
             event.key.code == sf::Keyboard::Up)
             selectedIndex = (selectedIndex - 1 + 3) % 3;
@@ -13,22 +16,31 @@ bool Settings::handleEvent(const sf::Event& event) {
             event.key.code == sf::Keyboard::Down)
             selectedIndex = (selectedIndex + 1) % 3;
 
-        if (event.key.code == sf::Keyboard::Left) {
-            if (selectedIndex == 0) musicVolume = std::max(0, musicVolume - 10);
-            if (selectedIndex == 1) sfxVolume = std::max(0, sfxVolume - 10);
+        if (event.key.code == sf::Keyboard::Left)
+        {
+            if (selectedIndex == 0)
+                musicVolume = std::max(0, musicVolume - 10);
+            if (selectedIndex == 1)
+                sfxVolume = std::max(0, sfxVolume - 10);
         }
-        if (event.key.code == sf::Keyboard::Right) {
-            if (selectedIndex == 0) musicVolume = std::min(100, musicVolume + 10);
-            if (selectedIndex == 1) sfxVolume = std::min(100, sfxVolume + 10);
+        if (event.key.code == sf::Keyboard::Right)
+        {
+            if (selectedIndex == 0)
+                musicVolume = std::min(100, musicVolume + 10);
+            if (selectedIndex == 1)
+                sfxVolume = std::min(100, sfxVolume + 10);
         }
-        if (event.key.code == sf::Keyboard::Return) {
-            if (selectedIndex == 2) fullscreen = !fullscreen;
+        if (event.key.code == sf::Keyboard::Return)
+        {
+            if (selectedIndex == 2)
+                fullscreen = !fullscreen;
         }
     }
     return false;
 }
 
-void Settings::draw() {
+void Settings::draw()
+{
     sf::RectangleShape bg(sf::Vector2f(800, 600));
     bg.setFillColor(sf::Color(10, 10, 25));
     window.draw(bg);
@@ -43,14 +55,17 @@ void Settings::draw() {
     title.setPosition(400, 80);
     window.draw(title);
 
-    struct Item { std::string name; std::string value; };
-    std::vector<Item> items = {
-        {"Music Volume", std::to_string(musicVolume) + "%"},
-        {"SFX Volume",   std::to_string(sfxVolume) + "%"},
-        {"Fullscreen",   fullscreen ? "ON" : "OFF"}
+    struct Item
+    {
+        std::string name;
+        std::string value;
     };
-
-    for (int i = 0; i < (int)items.size(); i++) {
+    std::vector<Item> items = {
+        {"音乐音量", std::to_string(musicVolume) + "%"},
+        {"音效音量", std::to_string(sfxVolume) + "%"},
+        {"全屏模式", fullscreen ? "开启" : "关闭"}};
+    for (int i = 0; i < (int)items.size(); i++)
+    {
         bool selected = (i == selectedIndex);
         float y = 220.f + i * 90.f;
 
@@ -71,7 +86,8 @@ void Settings::draw() {
         window.draw(nameText);
 
         // 左右箭头 + 值
-        if (i < 2) {
+        if (i < 2)
+        {
             sf::Text arrow;
             arrow.setFont(font);
             arrow.setCharacterSize(22);
@@ -96,7 +112,8 @@ void Settings::draw() {
     }
 
     // 进度条（音量）
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         float val = (i == 0 ? musicVolume : sfxVolume) / 100.f;
         float y = 220.f + i * 90.f + 18.f;
 
@@ -113,7 +130,7 @@ void Settings::draw() {
 
     sf::Text hint;
     hint.setFont(font);
-    hint.setString("[W/S] Navigate    [Left/Right] Adjust    [ESC] Back");
+    hint.setString("[W/S] 选择    [左/右] 调整    [ESC] 返回");
     hint.setCharacterSize(14);
     hint.setFillColor(sf::Color(100, 100, 140));
     sf::FloatRect hb = hint.getLocalBounds();

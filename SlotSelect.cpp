@@ -1,11 +1,13 @@
 #include "SlotSelect.hpp"
 #include <sstream>
 
-SlotSelect::SlotSelect(sf::RenderWindow& window, sf::Font& font, bool isSaving)
+SlotSelect::SlotSelect(sf::RenderWindow &window, sf::Font &font, bool isSaving)
     : window(window), font(font), isSaving(isSaving) {}
 
-int SlotSelect::handleEvent(const sf::Event& event) {
-    if (event.type == sf::Event::KeyPressed) {
+int SlotSelect::handleEvent(const sf::Event &event)
+{
+    if (event.type == sf::Event::KeyPressed)
+    {
         if (event.key.code == sf::Keyboard::W ||
             event.key.code == sf::Keyboard::Up)
             selectedSlot = (selectedSlot - 1 + SLOT_COUNT) % SLOT_COUNT;
@@ -20,11 +22,13 @@ int SlotSelect::handleEvent(const sf::Event& event) {
     return -2;
 }
 
-void SlotSelect::update(float dt) {
+void SlotSelect::update(float dt)
+{
     animTimer += dt;
 }
 
-void SlotSelect::draw() {
+void SlotSelect::draw()
+{
     // 背景
     sf::RectangleShape bg(sf::Vector2f(800, 600));
     bg.setFillColor(sf::Color(10, 10, 25));
@@ -33,7 +37,7 @@ void SlotSelect::draw() {
     // 标题
     sf::Text title;
     title.setFont(font);
-    title.setString(isSaving ? "SAVE GAME" : "LOAD GAME");
+    title.setString(isSaving ? "保存游戏" : "读取游戏");
     title.setCharacterSize(40);
     title.setFillColor(sf::Color(180, 100, 255));
     sf::FloatRect tb = title.getLocalBounds();
@@ -42,7 +46,8 @@ void SlotSelect::draw() {
     window.draw(title);
 
     // 8个存档槽
-    for (int i = 0; i < SLOT_COUNT; i++) {
+    for (int i = 0; i < SLOT_COUNT; i++)
+    {
         bool selected = (i == selectedSlot);
         float x = (i % 2 == 0) ? 150.f : 470.f;
         float y = 120.f + (i / 2) * 100.f;
@@ -62,7 +67,7 @@ void SlotSelect::draw() {
         // 槽位编号
         sf::Text numText;
         numText.setFont(font);
-        numText.setString("Slot " + std::to_string(i + 1));
+        numText.setString(" 存档 " + std::to_string(i + 1));
         numText.setCharacterSize(18);
         numText.setFillColor(selected ? sf::Color(220, 180, 255) : sf::Color(140, 120, 180));
         numText.setPosition(x + 10, y + 8);
@@ -73,17 +78,20 @@ void SlotSelect::draw() {
         infoText.setFont(font);
         infoText.setCharacterSize(14);
 
-        if (exists) {
+        if (exists)
+        {
             GameSaveData data;
             SaveSystem::load(data, filename);
             std::ostringstream ss;
-            ss << "Floor " << data.floor
-               << "  Lv." << data.playerLevel
+            ss << "第 " << data.floor << " 层"
+               << "  等级 " << data.playerLevel
                << "  HP:" << data.playerHP << "/" << data.playerMaxHP;
             infoText.setString(ss.str());
             infoText.setFillColor(sf::Color(150, 200, 150));
-        } else {
-            infoText.setString("-- Empty --");
+        }
+        else
+        {
+            infoText.setString("-- 空存档 --");
             infoText.setFillColor(sf::Color(80, 80, 100));
         }
         infoText.setPosition(x + 10, y + 48);
@@ -93,7 +101,7 @@ void SlotSelect::draw() {
     // 操作提示
     sf::Text hint;
     hint.setFont(font);
-    hint.setString("[W/S] Select    [Enter] Confirm    [ESC] Back");
+    hint.setString("[W/S] 选择    [Enter] 确认    [ESC] 返回");
     hint.setCharacterSize(14);
     hint.setFillColor(sf::Color(100, 100, 140));
     sf::FloatRect hb = hint.getLocalBounds();

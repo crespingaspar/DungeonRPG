@@ -106,7 +106,7 @@ void MainMenu::drawTitle() {
     // 副标题
     sf::Text sub;
     sub.setFont(font);
-    sub.setString("- Explore the Depths -");
+    sub.setString("- 探索地下城深处 -");
     sub.setCharacterSize(18);
     sub.setFillColor(sf::Color(160, 130, 200));
     sf::FloatRect subb = sub.getLocalBounds();
@@ -170,7 +170,7 @@ void MainMenu::drawMenuItems() {
     // 操作提示
     sf::Text hint;
     hint.setFont(font);
-    hint.setString("[W/S] or [Arrow] Navigate    [Enter] Select");
+    hint.setString("[W/S] 或 [方向键] 选择    [Enter] 确认");
     hint.setCharacterSize(14);
     hint.setFillColor(sf::Color(100, 100, 140));
     sf::FloatRect hb = hint.getLocalBounds();
